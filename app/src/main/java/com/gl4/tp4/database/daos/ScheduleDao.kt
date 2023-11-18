@@ -11,6 +11,6 @@ interface ScheduleDao {
     @Query("SELECT * FROM schedule ORDER BY arrival_time")
     fun getAll(): LiveData<List<Schedule>>
 
-    @Query("SELECT * FROM schedule WHERE stop_name = :stopName")
+    @Query("SELECT * FROM schedule WHERE stop_name = :stopName ORDER BY arrival_time")
     fun getByStopName(stopName: String): LiveData<List<Schedule>>
 }

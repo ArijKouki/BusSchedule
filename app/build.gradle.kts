@@ -48,6 +48,8 @@ dependencies {
     implementation ("androidx.room:room-runtime:2.4.0")
     annotationProcessor("androidx.room:room-compiler:2.4.0")
     kapt ("androidx.room:room-compiler:2.4.0")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
+
 
 
 }

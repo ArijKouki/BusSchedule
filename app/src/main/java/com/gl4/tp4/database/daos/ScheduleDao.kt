@@ -7,9 +7,9 @@ import com.gl4.tp4.database.entities.Schedule
 @Dao
 interface ScheduleDao {
 
-    @Query("SELECT * FROM schedule ORDER BY arrivalTime")
+    @Query("SELECT * FROM schedule ORDER BY arrival_time")
     fun getAll(): List<Schedule>
 
-    @Query("SELECT * FROM schedule WHERE stopName = :stopName")
+    @Query("SELECT * FROM schedule WHERE stop_name = :stopName")
     fun getByStopName(stopName: String): List<Schedule>
 }

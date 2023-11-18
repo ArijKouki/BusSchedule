@@ -3,6 +3,7 @@ package com.gl4.tp4
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -37,8 +38,8 @@ class MainActivity : AppCompatActivity() , BusStopAdapter.OnItemClickListener{
         busStopAdapter = BusStopAdapter(emptyList(), this)
         recyclerView.adapter = busStopAdapter
 
+        viewModel.fullSchedule().observe(this) { Log.d("it: ",it.toString()); busStopAdapter.updateData(it) }
 
-        loadDataFromDatabase()
     }
 
     override fun onItemClick(schedule: Schedule) {
@@ -48,16 +49,5 @@ class MainActivity : AppCompatActivity() , BusStopAdapter.OnItemClickListener{
         startActivity(intent)
     }
 
-    private fun loadDataFromDatabase() {
 
-        lifecycleScope.launch {
-            val schedules: List<Schedule>
-
-            withContext(Dispatchers.IO) {
-                schedules = viewModel.fullSchedule()
-            }
-
-            busStopAdapter.updateData(schedules)
-        }
-    }
 }

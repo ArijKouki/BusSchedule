@@ -43,23 +43,13 @@ class DetailsActivity : AppCompatActivity(), BusStopAdapter.OnItemClickListener 
         busStopAdapter = BusStopAdapter(emptyList(),this)
         recyclerView.adapter = busStopAdapter
 
-        loadDataForStopName(stopName)
-
-    }
-
-    private fun loadDataForStopName(stopName: String?) {
-        stopName?.let {
-            lifecycleScope.launch {
-                val schedules: List<Schedule>
-
-                withContext(Dispatchers.IO) {
-                    schedules = viewModel.scheduleForStopName(it)
-                }
-
-                busStopAdapter.updateData(schedules)
-            }
+        if (stopName != null) {
+            viewModel.scheduleForStopName(stopName).observe(this) { busStopAdapter.updateData(it) }
         }
+
     }
+
+
 
     override fun onItemClick(schedule: Schedule) {
     }
@@ -67,7 +57,6 @@ class DetailsActivity : AppCompatActivity(), BusStopAdapter.OnItemClickListener 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                // Handle the back button press
                 onBackPressed()
                 return true
             }

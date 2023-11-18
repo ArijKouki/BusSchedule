@@ -1,13 +1,13 @@
 package com.gl4.tp4
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.gl4.tp4.database.AppDatabase
 import com.gl4.tp4.database.entities.Schedule
 import com.gl4.tp4.viewmodels.BusScheduleViewModel
 import com.gl4.tp4.viewmodels.BusScheduleViewModelFactory
@@ -15,49 +15,43 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MainActivity : AppCompatActivity() , BusStopAdapter.OnItemClickListener{
+class DetailsActivity : AppCompatActivity(), BusStopAdapter.OnItemClickListener {
 
-    private lateinit var appDatabase: AppDatabase
     private val recyclerView: RecyclerView by lazy { findViewById(R.id.recyclerView) }
     private lateinit var busStopAdapter: BusStopAdapter
     private val viewModel: BusScheduleViewModel by viewModels {
         BusScheduleViewModelFactory((application as BusScheduleApplication).database.scheduleDao())
     }
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_details)
 
-        appDatabase = AppDatabase.getDatabase(this)
+        val stopName = intent.getStringExtra("STOP_NAME")
 
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
 
-        busStopAdapter = BusStopAdapter(emptyList(), this)
+        busStopAdapter = BusStopAdapter(emptyList(),this)
         recyclerView.adapter = busStopAdapter
 
+        loadDataForStopName(stopName)
 
-        loadDataFromDatabase()
+    }
+
+    private fun loadDataForStopName(stopName: String?) {
+        stopName?.let {
+            lifecycleScope.launch {
+                val schedules: List<Schedule>
+
+                withContext(Dispatchers.IO) {
+                    schedules = viewModel.scheduleForStopName(it)
+                }
+
+                busStopAdapter.updateData(schedules)
+            }
+        }
     }
 
     override fun onItemClick(schedule: Schedule) {
-        // Handle item click, launch DetailsActivity with selected stop name
-        val intent = Intent(this, DetailsActivity::class.java)
-        intent.putExtra("STOP_NAME", schedule.stopName)
-        startActivity(intent)
-    }
-
-    private fun loadDataFromDatabase() {
-
-        lifecycleScope.launch {
-            val schedules: List<Schedule>
-
-            withContext(Dispatchers.IO) {
-                schedules = viewModel.fullSchedule()
-            }
-
-            busStopAdapter.updateData(schedules)
-        }
     }
 }

@@ -7,8 +7,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.gl4.tp4.database.entities.Schedule
 
-class BusStopAdapter(private var schedules: List<Schedule>) :
+class BusStopAdapter(private var schedules: List<Schedule>,private val itemClickListener: OnItemClickListener) :
     RecyclerView.Adapter<BusStopAdapter.BusStopViewHolder>() {
+
+    interface OnItemClickListener {
+        fun onItemClick(schedule: Schedule)
+    }
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BusStopViewHolder {
@@ -30,11 +34,22 @@ class BusStopAdapter(private var schedules: List<Schedule>) :
         private val stopNameTextView: TextView = itemView.findViewById(R.id.stopNameTextView)
         private val arrivalTimeTextView: TextView = itemView.findViewById(R.id.arrivalTimeTextView)
 
+        init {
+            // Set click listener for the item
+            itemView.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    itemClickListener.onItemClick(schedules[position])
+                }
+            }
+        }
+
         fun bind(schedule: Schedule) {
             stopNameTextView.text = schedule.stopName
             arrivalTimeTextView.text = schedule.arrivalTime.toString()
         }
     }
+
 
     fun updateData(newSchedules: List<Schedule>) {
         schedules = newSchedules

@@ -1,11 +1,16 @@
 package com.gl4.tp4
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.gl4.tp4.database.entities.Schedule
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
 
 class BusStopAdapter(private var schedules: List<Schedule>,private val itemClickListener: OnItemClickListener) :
     RecyclerView.Adapter<BusStopAdapter.BusStopViewHolder>() {
@@ -46,7 +51,10 @@ class BusStopAdapter(private var schedules: List<Schedule>,private val itemClick
 
         fun bind(schedule: Schedule) {
             stopNameTextView.text = schedule.stopName
-            arrivalTimeTextView.text = schedule.arrivalTime.toString()
+            val date = Date(schedule.arrivalTime* 1000)
+            val dateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+            dateFormat.timeZone = TimeZone.getTimeZone("Africa/Tunis")
+            arrivalTimeTextView.text = dateFormat.format(date)
         }
     }
 

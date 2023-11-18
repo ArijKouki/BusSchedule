@@ -2,6 +2,7 @@ package com.gl4.tp4
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
@@ -28,6 +29,14 @@ class DetailsActivity : AppCompatActivity(), BusStopAdapter.OnItemClickListener 
 
         val stopName = intent.getStringExtra("STOP_NAME")
 
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+
+        supportActionBar?.apply {
+            title = stopName
+            setDisplayHomeAsUpEnabled(true)
+        }
+
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
 
@@ -53,5 +62,16 @@ class DetailsActivity : AppCompatActivity(), BusStopAdapter.OnItemClickListener 
     }
 
     override fun onItemClick(schedule: Schedule) {
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                // Handle the back button press
+                onBackPressed()
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
     }
 }

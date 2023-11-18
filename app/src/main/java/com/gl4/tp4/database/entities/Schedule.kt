@@ -11,5 +11,5 @@ data class Schedule(
     @ColumnInfo(name = "stop_name")
     var stopName: String="",
     @ColumnInfo(name = "arrival_time")
-    var arrivalTime: Int=0
+    var arrivalTime: Long=0
 )

@@ -16,12 +16,16 @@ Throughout this TP, we explored:
 - Omar Jabloun
 
 ## Screenshots
+<img src="https://github.com/ArijKouki/BusSchedule/blob/master/screenshots/Screenshot1.png?raw=true" alt="App Screenshot" width="400">
 
-![App Screenshot](https://github.com/ArijKouki/BusSchedule/blob/master/screenshots/Screenshot1.png?raw=true)
 ### After clicking on "Winding Way" bus stop:
-![App Screenshot](https://github.com/ArijKouki/BusSchedule/blob/master/screenshots/Screenshot3.png?raw=true)
-### After executing the insert query: 
-![App Screenshot](https://github.com/ArijKouki/BusSchedule/blob/master/screenshots/Screenshot4.png?raw=true)
+
+<img src="https://github.com/ArijKouki/BusSchedule/blob/master/screenshots/Screenshot3.png?raw=true" alt="App Screenshot" width="400">
+
+### After executing the insert query:
+
+<img src="https://github.com/ArijKouki/BusSchedule/blob/master/screenshots/Screenshot4.png?raw=true" alt="App Screenshot" width="400">
+
 
 
 
